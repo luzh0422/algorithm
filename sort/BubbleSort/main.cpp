@@ -2,11 +2,17 @@
 
 void bubbleSort(int array[], int length);
 
+template <class T>
+int getArrayLen(T& array) {
+    return sizeof(array) / sizeof(array[0]);
+}
+
 int main() {
     std::cout << "Hello, World!" << std::endl;
     int arr[] = {5, 3, 1, 7, 9, 10, 11};
-    bubbleSort(arr, 7);
-    for (int i = 0; i < 7; i++) {
+    int len = getArrayLen(arr);
+    bubbleSort(arr, len);
+    for (int i = 0; i < len; i++) {
         std::cout << arr[i];
         std::cout << " ";
     }
