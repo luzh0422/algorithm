@@ -5,8 +5,6 @@
 #include <vector>
 #include "hash.h"
 
-
-
 int main() {
     Hash hashy;
     hashy.addItem("Paul", "Locha");
