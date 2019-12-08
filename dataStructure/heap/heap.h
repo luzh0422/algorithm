@@ -8,6 +8,7 @@ template <class T>
 class MaxHeap {
 private:
     void filterUp(int index);
+    void filterDown(int index);
     T *heap;
     int mOpacity;
     int mSize;
@@ -18,6 +19,7 @@ public:
     void init(T value[], int length);
     void insert(T value);
     void print();
+    int pop();
 };
 
 template <class T>
@@ -32,14 +34,37 @@ MaxHeap<T>::~MaxHeap() {
     delete []heap;
 }
 
+
 template <class T>
 void MaxHeap<T>::filterUp(int index) {
     T value = heap[index];
+    /**
+     * 递归着往树的上层去寻找元素；
+     */
     while (index > 0) {
         int parentIndex = (index - 1) / 2;
         if (heap[parentIndex] < value) {
             heap[index] = heap[parentIndex];
             index = parentIndex;
+        } else {
+            break;
+        }
+    }
+    heap[index] = value;
+}
+
+template <class T>
+void MaxHeap<T>::filterDown(int index) {
+    T value = heap[index];
+    while (index <= mSize) {
+        int lChildIndex = index * 2 + 1;
+        int rChildIndex = index * 2 + 2;
+        if ((lChildIndex < mSize && rChildIndex < mSize && heap[lChildIndex] > heap[rChildIndex] || lChildIndex < mSize && rChildIndex == mSize) && heap[lChildIndex] > value) {
+            heap[index] = heap[lChildIndex];
+            index = lChildIndex;
+        } else if (lChildIndex < mSize && rChildIndex < mSize && heap[lChildIndex] < heap[rChildIndex] && heap[rChildIndex] > value) {
+            heap[index] = heap[rChildIndex];
+            index = rChildIndex;
         } else {
             break;
         }
@@ -75,5 +100,12 @@ void MaxHeap<T>::print() {
     cout << endl;
 }
 
+template <class T>
+int MaxHeap<T>::pop() {
+    int value = heap[0];
+    heap[0] = heap[-- mSize];
+    filterDown(0);
+    return value;
+}
 
 #endif
