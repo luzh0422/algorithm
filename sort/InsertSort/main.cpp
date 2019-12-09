@@ -8,6 +8,7 @@ int getArrayLength(T& array) {
 template <class T>
 void insertSort(T* arr, int len) {
     for (int i = 1; i < len; i++) {
+        // 其实这部分是冒泡排序的部分；
         for (int j = i; j > 0; j--) {
             if (arr[j] < arr[j-1]) {
                 int temp = arr[j];
