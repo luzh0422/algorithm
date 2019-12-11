@@ -63,7 +63,7 @@ void MergeSort<T>::merge(int start, int middle, int end, T *temp) {
     int i = start;
     int j = middle + 1;
     int k = 0;
-    while (i <= middle && j <= end) {
+    while (i <= middle && j < end) {
         if (array[i] < array[j]) {
             temp[k++] = array[i++];
         } else {
