@@ -4,9 +4,12 @@
 using namespace std;
 const int INF = 1000000000;
 
-void Dijkstra(int n, int s, vector<vector<int>> G, vector<bool > &visit, vector<int > &d, vector<int > &pre) {
+void Dijkstra(int n, int s, vector<vector<int>> G, vector<int>& pre, vector<int>& d) {
+    /**
+     * init
+     */
+    vector<bool> visit(n);
     fill(d.begin(), d.end(), INF);
-
     for (int i = 0; i < n; ++ i) {
         pre[i] = i;
     }
@@ -42,6 +45,9 @@ void Dijkstra(int n, int s, vector<vector<int>> G, vector<bool > &visit, vector<
 }
 
 
+/**
+ * 递归的方式遍历从s到v的最短路径。
+ */
 void DFSPrint(int s, int v, vector<int> pre)
 {
     if (v == s) {
@@ -56,17 +62,16 @@ int main() {
     std::cout << "Hello, World!" << std::endl;
 
     int n = 6;
+    vector<int> pre(n);
+    vector<int> d(n);
     vector<vector<int>> G = { {0,1,INF,4,4,INF},
                               {INF,0,INF,2,INF,INF},
                               {INF,INF,0,INF,INF,1},
                               {INF,INF,2,0,3,INF},
                               {INF,INF,INF,INF,0,3},
                               {INF,INF,INF,INF,INF,0} };
-    vector<bool> vis(n);
-    vector<int> d(n);
-    vector<int> pre(n);
 
-    Dijkstra(n,0,G,vis,d,pre);
+    Dijkstra(n, 0, G, pre, d);
     for (auto x : d)
         cout << x << " ";
     cout << endl;

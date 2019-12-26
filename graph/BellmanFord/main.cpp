@@ -5,6 +5,7 @@
 using std::cout;
 using std::endl;
 using std::vector;
+const int INF = 1000000000;
 
 struct Edge {
     int from;
@@ -16,9 +17,19 @@ struct Graph {
 private:
     int V;
     vector<Edge> E;
+    vector<int> pre;
+    vector<int> d;
 
 public:
-    Graph(int v): V(v) {}
+    Graph(int v): V(v) {
+        for (int i = 0; i < v; i ++) {
+            pre.push_back(i);
+        }
+//        d.insert(d.begin(), V, INFINITY);
+        for (int i = 0; i < v; i ++) {
+            d.push_back(INF);
+        }
+    }
     void insertEdge(int from, int to, double weight) {
         Edge e;
         e.from = from;
@@ -28,9 +39,9 @@ public:
     }
 
     void bellmanFord(int s) {
-        vector<double > d(V);
+//        vector<double > d(V);
         for (int i = 0; i < V; i++) {
-            d[i] = INFINITY;
+            d[i] = INF;
         }
         d[s] = 0;
         bool updated;
@@ -39,6 +50,7 @@ public:
             for (auto edge: E) {
                 if (d[edge.from] + edge.weight < d[edge.to]) {
                     d[edge.to] = d[edge.from] + edge.weight;
+                    pre[edge.to] = edge.from;
                     updated = true;
                 }
             }
@@ -50,9 +62,20 @@ public:
             cout << "There is a negative cycle." << endl;
         } else {
             for(int i = 0; i < V; i++) {
-                std::cout << d[i] << endl;
+                std::cout << d[i] << " ";
             }
+            std::cout << std::endl;
         }
+    }
+
+    void printBellmanFord(int s, int t) {
+//        if (d[t])
+        if (s == t) {
+            std::cout << s << " ";
+            return;
+        }
+        printBellmanFord(s, pre[t]);
+        std::cout << t << " ";
     }
 };
 
@@ -64,6 +87,7 @@ int main() {
     g.insertEdge(2, 1, -15);
     g.insertEdge(2, 4, 5);
     g.insertEdge(4, 3, -5);
-    g.bellmanFord(2);
+    g.bellmanFord(0);
+    g.printBellmanFord(0, 4);
     return 0;
 }
